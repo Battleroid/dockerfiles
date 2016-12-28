@@ -157,6 +157,11 @@ function installForge {
   fi
 }
 
+function setFTB {
+    # TODO: needs to download FTB version and potentially the modpack
+    SERVER="FTBserver.jar"
+}
+
 function installVanilla {
   SERVER="minecraft_server.$VANILLA_VERSION.jar"
 
@@ -201,6 +206,12 @@ case "$TYPE" in
   FORGE|forge)
     TYPE=FORGE
     installForge
+  ;;
+
+  FTB|ftb)
+    TYPE=FORGE
+    installForge
+    setFTB
   ;;
 
   VANILLA|vanilla)
@@ -450,7 +461,7 @@ fi
 # If we have a bootstrap.txt file... feed that in to the server stdin
 if [ -f /data/bootstrap.txt ];
 then
-    exec java $JVM_OPTS -jar $SERVER "$@" $EXTRA_ARGS < /data/bootstrap.txt
+    exec java $JVM_OPTS -jar $SERVER nogui "$@" $EXTRA_ARGS < /data/bootstrap.txt
 else
-    exec java $JVM_OPTS -jar $SERVER "$@" $EXTRA_ARGS
+    exec java $JVM_OPTS -jar $SERVER nogui "$@" $EXTRA_ARGS
 fi
